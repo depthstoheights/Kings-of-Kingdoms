@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kings & Kingdoms: Timeline Strategy</title>
+    <style>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" sizes="192x192">
+<meta name="theme-color" content="#0b1324">
+
+<!-- optional but good -->
+<meta name="description" content="Biblical-historical, hope-filled web experience by Depths to the Heights.">
+<meta property="og:title" content="Kings of Kingdoms — Timeline Strategy">
+<meta property="og:description" content="A reflective, educational, Bible-grounded web app.">
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: white;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Splash Screen Styles */
+        .splash-screen {
+            background: linear-gradient(to bottom, #92400e, #a16207, #92400e);
+            text-align: center;
+        }
+
+        .crown-icon {
+            font-size: 6rem;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .game-title {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #fef3c7;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+        }
+
+        .game-subtitle {
+            font-size: 1.5rem;
+            color: #fbbf24;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+        }
+
+        .loading-spinner {
+            width: 3rem;
+            height: 3rem;
+            border: 3px solid #fbbf24;
+            border-top: 3px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        /* Hero Screen Styles */
+        .hero-screen {
+            background: linear-gradient(135deg, #0f172a, #1e3a8a, #0f172a);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .shield-icon {
+            font-size: 8rem;
+            color: #60a5fa;
+            margin-bottom: 3rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 2rem;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            color: #60a5fa;
+            display: block;
+            margin-top: 1rem;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: #cbd5e1;
+            max-width: 42rem;
+            margin: 0 auto 3rem auto;
+        }
+
+        .name-input {
+            background: #1e293b;
+            color: white;
+            padding: 1rem 1.5rem;
+            border: 1px solid #475569;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            text-align: center;
+            max-width: 24rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: #60a5fa;
+        }
+
+        /* Button Styles */
+        .button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .button:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        .button-secondary {
+            background: #475569;
+        }
+
+        .button-secondary:hover {
+            background: #334155;
+        }
+
+        .button-success {
+            background: #059669;
+        }
+
+        .button-success:hover {
+            background: #047857;
+        }
+
+        .button-danger {
+            background: #dc2626;
+        }
+
+        .button-danger:hover {
+            background: #b91c1c;
+        }
+
+        /* Strategy Screen Styles */
+        .strategy-screen {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+
+        .strategy-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .strategy-title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .turn-info {
+            color: #94a3b8;
+            font-size: 1.125rem;
+        }
+
+        /* Kingdom Stats */
+        .kingdom-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: #334155;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+        }
+
+        .stat-label {
+            color: white;
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 0.75rem;
+            background: #475569;
+            border-radius: 9999px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.8s ease;
+        }
+
+        .progress-economy { background: #22c55e; }
+        .progress-justice { background: #3b82f6; }
+        .progress-worship { background: #a855f7; }
+        .progress-alliances { background: #f59e0b; }
+
+        .stat-value {
+            color: #cbd5e1;
+            font-size: 0.875rem;
+        }
+
+        /* Scenario Panel */
+        .scenario-panel {
+            background: #334155;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .scenario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .scenario-meta {
+            flex: 1;
+        }
+
+        .scenario-category {
+            color: #60a5fa;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .scenario-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .difficulty-badge {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .scenario-description {
+            color: #cbd5e1;
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .scripture-panel {
+            background: rgba(180, 83, 9, 0.2);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .scripture-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .scripture-label {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+
+        .scripture-text {
+            color: #fed7aa;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        /* Decision Options */
+        .decision-options {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .decision-option {
+            background: #475569;
+            border: 1px solid #64748b;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            width: 100%;
+        }
+
+        .decision-option:hover {
+            background: #64748b;
+            border-color: #94a3b8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .option-text {
+            color: white;
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .option-effects {
+            color: #94a3b8;
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .option-reasoning {
+            color: #cbd5e1;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #64748b;
+        }
+
+        /* Prophet Feedback */
+        .prophet-panel {
+            background: rgba(107, 33, 168, 0.2);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .prophet-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .prophet-title {
+            color: #c084fc;
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .prophet-text {
+            color: #e9d5ff;
+            line-height: 1.6;
+        }
+
+        /* Achievements */
+        .achievements-panel {
+            background: rgba(180, 83, 9, 0.2);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .achievements-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .achievements-title {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+
+        .achievement-badge {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            margin: 0.25rem;
+            display: inline-block;
+        }
+
+        /* End Screen */
+        .end-screen {
+            background: linear-gradient(135deg, #0f172a, #581c87, #0f172a);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .final-crown {
+            font-size: 5rem;
+            color: #fbbf24;
+            margin-bottom: 2rem;
+            animation: pulse 3s infinite;
+        }
+
+        .end-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .end-subtitle {
+            font-size: 1.25rem;
+            color: #cbd5e1;
+            margin-bottom: 3rem;
+            max-width: 48rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .results-panel {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .leadership-profile {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .final-score {
+            font-size: 1.125rem;
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+        }
+
+        .final-score-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #60a5fa;
+        }
+
+        .final-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .final-stat-card {
+            background: #334155;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .final-stat-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .final-stat-label {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .final-stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #60a5fa;
+            margin-bottom: 1rem;
+        }
+
+        .final-stat-bar {
+            width: 100%;
+            height: 0.5rem;
+            background: #475569;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .legacy-text {
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin-top: 1.5rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .restart-button {
+            background: transparent;
+            color: #94a3b8;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .restart-button:hover {
+            color: white;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .game-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .strategy-title {
+                font-size: 2rem;
+            }
+
+            .scenario-title {
+                font-size: 1.5rem;
+            }
+
+            .kingdom-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .final-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .kingdom-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .final-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="screen splash-screen">
+        <div>
+            <div class="crown-icon">👑</div>
+            <h1 class="game-title">KINGS & KINGDOMS</h1>
+            <p class="game-subtitle">Timeline Strategy</p>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Hero Screen -->
+    <div id="hero-screen" class="screen hero-screen hidden">
+        <div>
+            <div class="shield-icon">🛡️</div>
+            <h1 class="hero-title">
+                Lead with justice in a world of 
+                <span class="hero-subtitle">shifting thrones</span>
+            </h1>
+            <p class="hero-description">
+                Navigate the complexities of biblical leadership through strategic decisions that shape kingdoms and define legacies. Every choice echoes through history.
+            </p>
+            <div style="margin-bottom: 2rem;">
+                <input type="text" id="player-name" class="name-input" placeholder="Enter your name (optional)">
+            </div>
+            <button class="button" onclick="startGame()">
+                ▶️ Begin Your Reign →
+            </button>
+        </div>
+    </div>
+
+    <!-- Strategy Screen -->
+    <div id="strategy-screen" class="strategy-screen hidden">
+        <div class="container">
+            <div class="strategy-header">
+                <h2 class="strategy-title">Strategic Council</h2>
+                <p class="turn-info">Turn <span id="turn-counter">1</span> - <span id="player-greeting">Make</span> decisions that shape your kingdom</p>
+            </div>
+
+            <!-- Kingdom Statistics -->
+            <div class="kingdom-stats">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-icon">💰</span>
+                        <span class="stat-label">Economy</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="economy-bar" class="progress-fill progress-economy" style="width: 50%;"></div>
+                    </div>
+                    <p class="stat-value"><span id="economy-value">50</span>/100</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-icon">⚖️</span>
+                        <span class="stat-label">Justice</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="justice-bar" class="progress-fill progress-justice" style="width: 50%;"></div>
+                    </div>
+                    <p class="stat-value"><span id="justice-value">50</span>/100</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-icon">🛐</span>
+                        <span class="stat-label">Worship</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="worship-bar" class="progress-fill progress-worship" style="width: 50%;"></div>
+                    </div>
+                    <p class="stat-value"><span id="worship-value">50</span>/100</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-icon">🤝</span>
+                        <span class="stat-label">Alliances</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="alliances-bar" class="progress-fill progress-alliances" style="width: 50%;"></div>
+                    </div>
+                    <p class="stat-value"><span id="alliances-value">50</span>/100</p>
+                </div>
+            </div>
+
+            <!-- Current Scenario -->
+            <div class="scenario-panel">
+                <div class="scenario-header">
+                    <div class="scenario-meta">
+                        <div class="scenario-category" id="scenario-category">Loading...</div>
+                        <h3 class="scenario-title" id="scenario-title">Loading Scenario...</h3>
+                        <span class="difficulty-badge" id="scenario-difficulty">Intermediate</span>
+                    </div>
+                    <button class="button button-secondary" onclick="toggleReasoning()">
+                        <span id="reasoning-toggle">Show Reasoning</span>
+                    </button>
+                </div>
+                
+                <p class="scenario-description" id="scenario-description">Loading scenario description...</p>
+                
+                <div class="scripture-panel">
+                    <div class="scripture-header">
+                        <span>📜</span>
+                        <span class="scripture-label">Biblical Foundation</span>
+                    </div>
+                    <p class="scripture-text" id="scenario-scripture">Loading scripture...</p>
+                </div>
+                
+                <div class="decision-options" id="decision-options">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Prophet Feedback -->
+            <div id="prophet-panel" class="prophet-panel hidden">
+                <div class="prophet-header">
+                    <span>📜</span>
+                    <h4 class="prophet-title">Prophet's Counsel</h4>
+                </div>
+                <p class="prophet-text" id="prophet-text"></p>
+            </div>
+
+            <!-- Achievements -->
+            <div id="achievements-panel" class="achievements-panel hidden">
+                <div class="achievements-header">
+                    <span>🏆</span>
+                    <span class="achievements-title">Achievements Unlocked</span>
+                </div>
+                <div id="achievements-list"></div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <button class="button button-secondary" onclick="goToHero()">← Back to Intro</button>
+                <button class="button" onclick="endGame()">View Results →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Screen -->
+    <div id="end-screen" class="screen end-screen hidden">
+        <div>
+            <div class="final-crown">👑</div>
+            <h1 class="end-title">Your Reign Concludes</h1>
+            <p class="end-subtitle">
+                Leadership is not about the crown you wear, but the justice you pursue and the lives you touch.
+            </p>
+
+            <div class="results-panel">
+                <h2 class="leadership-profile">Your Leadership Profile: <span id="leadership-profile-text">Evaluating...</span></h2>
+                <div class="final-score">
+                    Overall Leadership Score: <span class="final-score-value" id="final-score">0</span>/100
+                </div>
+
+                <div class="final-stats">
+                    <div class="final-stat-card">
+                        <div class="final-stat-icon">💰</div>
+                        <div class="final-stat-label">Economy</div>
+                        <div class="final-stat-value" id="final-economy">50</div>
+                        <div class="final-stat-bar">
+                            <div id="final-economy-bar" class="progress-fill progress-economy" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="final-stat-card">
+                        <div class="final-stat-icon">⚖️</div>
+                        <div class="final-stat-label">Justice</div>
+                        <div class="final-stat-value" id="final-justice">50</div>
+                        <div class="final-stat-bar">
+                            <div id="final-justice-bar" class="progress-fill progress-justice" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="final-stat-card">
+                        <div class="final-stat-icon">🛐</div>
+                        <div class="final-stat-label">Worship</div>
+                        <div class="final-stat-value" id="final-worship">50</div>
+                        <div class="final-stat-bar">
+                            <div id="final-worship-bar" class="progress-fill progress-worship" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="final-stat-card">
+                        <div class="final-stat-icon">🤝</div>
+                        <div class="final-stat-label">Alliances</div>
+                        <div class="final-stat-value" id="final-alliances">50</div>
+                        <div class="final-stat-bar">
+                            <div id="final-alliances-bar" class="progress-fill progress-alliances" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="legacy-text" id="legacy-text">Your leadership legacy awaits evaluation...</div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="button">Apply Today's Lesson</button>
+                <button class="button button-secondary">📤 Share Experience</button>
+                <button class="button button-success" onclick="downloadResults()">📥 Download Results</button>
+            </div>
+
+            <button class="restart-button" onclick="restartGame()">
+                ▶️ Start a New Reign
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Game State Management
+        let gameState = {
+            economy: 50,
+            justice: 50,
+            worship: 50,
+            alliances: 50,
+            turn: 1,
+            decisions: [],
+            achievements: [],
+            playerName: '',
+            sessionId: Date.now().toString(),
+            startTime: Date.now()
+        };
+
+        let currentScenarioIndex = 0;
+        let showReasoningMode = false;
+
+        // Biblical Leadership Scenarios
+        const scenarios = [
+            {
+                id: 'merchant_dilemma',
+                category: 'Economic Ethics',
+                title: "The Merchant's Dilemma",
+                description: "A wealthy merchant requests tax exemptions in exchange for increased trade. Your decision will affect both economic growth and social justice in your kingdom.",
+                difficulty: 'Intermediate',
+                scripture: "Render to Caesar what is Caesar's, and to God what is God's. - Matthew 22:21",
+                options: [
+                    {
+                        text: "Grant full tax exemptions to boost trade",
+                        effect: { economy: 15, justice: -10 },
+                        reasoning: "Short-term economic gain may compromise long-term justice principles and create inequality among citizens."
+                    },
+                    {
+                        text: "Maintain equal taxation for all citizens",
+                        effect: { justice: 15, economy: -5 },
+                        reasoning: "Upholding justice establishes trust and legitimacy among all people, though economic growth may slow."
+                    },
+                    {
+                        text: "Negotiate community investment requirements",
+                        effect: { economy: 8, justice: 8, alliances: 5 },
+                        reasoning: "Balanced approach that aligns profit with public benefit, creating sustainable economic development."
+                    }
+                ]
+            },
+            {
+                id: 'border_conflict',
+                category: 'Diplomacy and Defense',
+                title: "Border Territorial Dispute",
+                description: "A neighboring kingdom claims disputed territory and threatens military action. Your response will determine the path toward peace or conflict.",
+                difficulty: 'Advanced',
+                scripture: "Blessed are the peacemakers, for they will be called children of God. - Matthew 5:9",
+                options: [
+                    {
+                        text: "Mobilize defensive forces immediately",
+                        effect: { alliances: -10, economy: -10, justice: 10 },
+                        reasoning: "Sometimes righteous defense is necessary to protect vulnerable citizens, though it diverts resources from development."
+                    },
+                    {
+                        text: "Seek diplomatic mediation through neutral parties",
+                        effect: { alliances: 15, worship: 5, justice: 5 },
+                        reasoning: "Peaceful resolution honors divine principles of reconciliation and builds lasting regional relationships."
+                    },
+                    {
+                        text: "Offer territorial compromise for lasting peace",
+                        effect: { alliances: 10, justice: -5 },
+                        reasoning: "Strategic concessions may prevent greater future conflicts, though some citizens may feel betrayed."
+                    }
+                ]
+            },
+            {
+                id: 'temple_construction',
+                category: 'Faith and Resources',
+                title: "Sacred Temple Construction",
+                description: "Religious leaders request significant funding for temple construction while citizens need infrastructure improvements. Your choice reflects kingdom priorities.",
+                difficulty: 'Intermediate',
+                scripture: "Where your treasure is, there your heart will be also. - Matthew 6:21",
+                options: [
+                    {
+                        text: "Fully fund the temple construction project",
+                        effect: { worship: 20, economy: -15 },
+                        reasoning: "Spiritual foundation strengthens society's moral framework, though practical needs may suffer."
+                    },
+                    {
+                        text: "Provide partial funding with community partnership",
+                        effect: { worship: 12, economy: -3, alliances: 8 },
+                        reasoning: "Shared investment creates community ownership and unity while maintaining fiscal responsibility."
+                    },
+                    {
+                        text: "Prioritize infrastructure over temple construction",
+                        effect: { economy: 15, worship: -10, justice: 5 },
+                        reasoning: "Basic infrastructure serves all citizens regardless of personal faith, promoting practical equality."
+                    }
+                ]
+            },
+            {
+                id: 'harvest_crisis',
+                category: 'Crisis Management',
+                title: "Drought and Food Shortage",
+                description: "Severe drought has damaged crops throughout your kingdom. Emergency food reserves are available, but neighboring kingdoms offer grain at premium prices.",
+                difficulty: 'Expert',
+                scripture: "Give us this day our daily bread. - Matthew 6:11",
+                options: [
+                    {
+                        text: "Distribute emergency reserves freely to all citizens",
+                        effect: { justice: 20, economy: -20, worship: 10 },
+                        reasoning: "Leadership requires personal sacrifice for the common good, demonstrating compassionate governance."
+                    },
+                    {
+                        text: "Implement rationing while negotiating trade agreements",
+                        effect: { economy: 5, alliances: 15, justice: 5 },
+                        reasoning: "Strategic approach builds relationships while managing crisis effectively, ensuring long-term stability."
+                    },
+                    {
+                        text: "Sell reserves to wealthy citizens and import grain",
+                        effect: { economy: 10, justice: -15, alliances: 5 },
+                        reasoning: "Market-based solutions may preserve economic stability but could increase inequality during crisis."
+                    }
+                ]
+            },
+            {
+                id: 'corruption_investigation',
+                category: 'Justice and Governance',
+                title: "Corruption Among Officials",
+                description: "Evidence surfaces that several high-ranking officials have been accepting bribes. Some are close allies who helped establish your reign.",
+                difficulty: 'Expert',
+                scripture: "Justice, and only justice, you shall pursue. - Deuteronomy 16:20",
+                options: [
+                    {
+                        text: "Conduct full public investigation regardless of personal cost",
+                        effect: { justice: 25, alliances: -15, worship: 10 },
+                        reasoning: "Integrity requires equal justice regardless of personal relationships, establishing moral authority."
+                    },
+                    {
+                        text: "Handle investigations privately to protect relationships",
+                        effect: { alliances: 5, justice: -15, economy: -5 },
+                        reasoning: "Preserving stability through discrete handling, though public trust may be compromised."
+                    },
+                    {
+                        text: "Create transparent accountability system with restoration focus",
+                        effect: { justice: 15, alliances: 5, worship: 8, economy: 3 },
+                        reasoning: "Restorative justice approach rebuilds trust while maintaining relationships and preventing future corruption."
+                    }
+                ]
+            }
+        ];
+
+        // Initialize game
+        function initializeGame() {
+            setTimeout(() => {
+                document.getElementById('splash-screen').classList.add('hidden');
+                document.getElementById('hero-screen').classList.remove('hidden');
+            }, 3000);
+        }
+
+        // Start game from hero screen
+        function startGame() {
+            const playerNameInput = document.getElementById('player-name');
+            gameState.playerName = playerNameInput.value.trim() || 'Anonymous Ruler';
+            
+            // Update greeting
+            const greeting = gameState.playerName === 'Anonymous Ruler' ? 'Make' : `${gameState.playerName}, make`;
+            document.getElementById('player-greeting').textContent = greeting;
+            
+            document.getElementById('hero-screen').classList.add('hidden');
+            document.getElementById('strategy-screen').classList.remove('hidden');
+            loadCurrentScenario();
+        }
+
+        // Go back to hero screen
+        function goToHero() {
+            document.getElementById('strategy-screen').classList.add('hidden');
+            document.getElementById('hero-screen').classList.remove('hidden');
+        }
+
+        // Load current scenario
+        function loadCurrentScenario() {
+            if (currentScenarioIndex >= scenarios.length) {
+                endGame();
+                return;
+            }
+
+            const scenario = scenarios[currentScenarioIndex];
+            
+            document.getElementById('scenario-category').textContent = scenario.category;
+            document.getElementById('scenario-title').textContent = scenario.title;
+            document.getElementById('scenario-difficulty').textContent = scenario.difficulty;
+            document.getElementById('scenario-description').textContent = scenario.description;
+            document.getElementById('scenario-scripture').textContent = scenario.scripture;
+
+            const optionsContainer = document.getElementById('decision-options');
+            optionsContainer.innerHTML = '';
+
+            scenario.options.forEach((option, index) => {
+                const optionButton = document.createElement('button');
+                optionButton.className = 'decision-option';
+                optionButton.onclick = () => makeDecision(option);
+                
+                const effectsText = Object.entries(option.effect)
+                    .map(([axis, change]) => `${axis.charAt(0).toUpperCase() + axis.slice(1)} ${change > 0 ? '+' : ''}${change}`)
+                    .join(', ');
+
+                optionButton.innerHTML = `
+                    <div class="option-text">${option.text}</div>
+                    <div class="option-effects">Effects: ${effectsText}</div>
+                    ${showReasoningMode ? `<div class="option-reasoning"><strong>Reasoning:</strong> ${option.reasoning}</div>` : ''}
+                `;
+
+                optionsContainer.appendChild(optionButton);
+            });
+        }
+
+        // Make a decision
+        function makeDecision(option) {
+            // Apply effects to game state
+            Object.keys(option.effect).forEach(axis => {
+                gameState[axis] = Math.max(0, Math.min(100, gameState[axis] + option.effect[axis]));
+            });
+
+            // Record the decision
+            gameState.decisions.push({
+                turn: gameState.turn,
+                scenario: scenarios[currentScenarioIndex].title,
+                option: option.text,
+                effects: option.effect,
+                timestamp: Date.now()
+            });
+
+            // Check for achievements
+            checkAchievements();
+
+            // Update UI
+            updateKingdomStats();
+            updateTurnCounter();
+            showProphetFeedback();
+
+            // Move to next scenario
+            gameState.turn++;
+            currentScenarioIndex++;
+            
+            setTimeout(() => {
+                loadCurrentScenario();
+            }, 1000);
+        }
+
+        // Update kingdom statistics display
+        function updateKingdomStats() {
+            const stats = ['economy', 'justice', 'worship', 'alliances'];
+            
+            stats.forEach(stat => {
+                const value = gameState[stat];
+                document.getElementById(`${stat}-value`).textContent = value;
+                document.getElementById(`${stat}-bar`).style.width = `${value}%`;
+            });
+        }
+
+        // Update turn counter
+        function updateTurnCounter() {
+            document.getElementById('turn-counter').textContent = gameState.turn;
+        }
+
+        // Show prophet feedback
+        function showProphetFeedback() {
+            if (gameState.turn <= 3) return;
+
+            const prophetPanel = document.getElementById('prophet-panel');
+            const prophetText = document.getElementById('prophet-text');
+            
+            let feedback = '';
+            if (gameState.justice > 70) {
+                feedback = "The Lord sees your commitment to righteousness. Continue to seek justice for all people in your kingdom.";
+            } else if (gameState.justice < 30) {
+                feedback = "Remember that justice and mercy are the foundation of a godly kingdom. Consider the needs of the oppressed and vulnerable.";
+            } else {
+                feedback = "Seek wisdom in balancing the needs of your people with the commands of the Almighty. True leadership serves both God and humanity.";
+            }
+            
+            prophetText.textContent = feedback;
+            prophetPanel.classList.remove('hidden');
+        }
+
+        // Check and award achievements
+        function checkAchievements() {
+            const achievementsPanel = document.getElementById('achievements-panel');
+            const achievementsList = document.getElementById('achievements-list');
+            
+            // Just Ruler achievement
+            if (gameState.justice >= 80 && !gameState.achievements.includes('Just Ruler')) {
+                gameState.achievements.push('Just Ruler');
+                const badge = document.createElement('span');
+                badge.className = 'achievement-badge';
+                badge.textContent = '👑 Just Ruler - Maintained justice above 80 points';
+                achievementsList.appendChild(badge);
+                achievementsPanel.classList.remove('hidden');
+            }
+            
+            // Faithful Shepherd achievement
+            if (gameState.worship >= 75 && !gameState.achievements.includes('Faithful Shepherd')) {
+                gameState.achievements.push('Faithful Shepherd');
+                const badge = document.createElement('span');
+                badge.className = 'achievement-badge';
+                badge.textContent = '🛐 Faithful Shepherd - Maintained strong spiritual foundation';
+                achievementsList.appendChild(badge);
+                achievementsPanel.classList.remove('hidden');
+            }
+            
+            // Master Diplomat achievement
+            if (gameState.alliances >= 75 && !gameState.achievements.includes('Master Diplomat')) {
+                gameState.achievements.push('Master Diplomat');
+                const badge = document.createElement('span');
+                badge.className = 'achievement-badge';
+                badge.textContent = '🤝 Master Diplomat - Built strong international relationships';
+                achievementsList.appendChild(badge);
+                achievementsPanel.classList.remove('hidden');
+            }
+            
+            // Wise Steward achievement
+            if (gameState.economy >= 75 && !gameState.achievements.includes('Wise Steward')) {
+                gameState.achievements.push('Wise Steward');
+                const badge = document.createElement('span');
+                badge.className = 'achievement-badge';
+                badge.textContent = '💰 Wise Steward - Demonstrated excellent economic management';
+                achievementsList.appendChild(badge);
+                achievementsPanel.classList.remove('hidden');
+            }
+        }
+
+        // Toggle reasoning display
+        function toggleReasoning() {
+            showReasoningMode = !showReasoningMode;
+            const toggleButton = document.getElementById('reasoning-toggle');
+            toggleButton.textContent = showReasoningMode ? 'Hide Reasoning' : 'Show Reasoning';
+            loadCurrentScenario();
+        }
+
+        // End game and show results
+        function endGame() {
+            document.getElementById('strategy-screen').classList.add('hidden');
+            document.getElementById('end-screen').classList.remove('hidden');
+            calculateAndDisplayResults();
+        }
+
+        // Calculate and display final results
+        function calculateAndDisplayResults() {
+            const finalScore = Math.round((gameState.economy + gameState.justice + gameState.worship + gameState.alliances) / 4);
+            document.getElementById('final-score').textContent = finalScore;
+
+            // Determine leadership profile
+            const stats = {
+                economy: gameState.economy,
+                justice: gameState.justice,
+                worship: gameState.worship,
+                alliances: gameState.alliances
+            };
+            
+            const strongest = Object.entries(stats).reduce((a, b) => a[1] > b[1] ? a : b);
+            const profiles = {
+                economy: "Pragmatic Builder",
+                justice: "Righteous Reformer",
+                worship: "Spiritual Guide",
+                alliances: "Diplomatic Unifier"
+            };
+            
+            document.getElementById('leadership-profile-text').textContent = profiles[strongest[0]];
+
+            // Update final stats display
+            const statsList = ['economy', 'justice', 'worship', 'alliances'];
+            statsList.forEach(stat => {
+                const value = gameState[stat];
+                document.getElementById(`final-${stat}`).textContent = value;
+                document.getElementById(`final-${stat}-bar`).style.width = `${value}%`;
+            });
+
+            // Generate legacy text
+            let legacyText = '';
+            if (gameState.justice > 80) {
+                legacyText = 'You ruled with exceptional righteousness and justice, leaving a legacy of equity and compassion that will inspire future generations.';
+            } else if (gameState.justice > 60) {
+                legacyText = 'You maintained a good balance of justice in your reign, demonstrating wisdom in most decisions while learning from challenging situations.';
+            } else if (gameState.justice > 40) {
+                legacyText = 'Your reign showed moments of wisdom and growth, though justice could have been stronger in some critical decisions affecting your people.';
+            } else {
+                legacyText = 'Leadership requires constant growth and learning. Consider how biblical principles of justice and mercy can guide future decisions in positions of responsibility.';
+            }
+            
+            document.getElementById('legacy-text').textContent = legacyText;
+        }
+
+        // Download results as JSON
+        function downloadResults() {
+            const results = {
+                playerName: gameState.playerName,
+                sessionId: gameState.sessionId,
+                completionDate: new Date().toISOString(),
+                sessionDuration: Date.now() - gameState.startTime,
+                finalStats: {
+                    economy: gameState.economy,
+                    justice: gameState.justice,
+                    worship: gameState.worship,
+                    alliances: gameState.alliances,
+                    overallScore: Math.round((gameState.economy + gameState.justice + gameState.worship + gameState.alliances) / 4)
+                },
+                decisions: gameState.decisions,
+                achievements: gameState.achievements,
+                totalTurns: gameState.turn - 1,
+                scenariosCompleted: currentScenarioIndex
+            };
+
+            const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `KingsKingdoms_Results_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        // Restart the game
+        function restartGame() {
+            // Reset game state
+            gameState = {
+                economy: 50,
+                justice: 50,
+                worship: 50,
+                alliances: 50,
+                turn: 1,
+                decisions: [],
+                achievements: [],
+                playerName: '',
+                sessionId: Date.now().toString(),
+                startTime: Date.now()
+            };
+            
+            currentScenarioIndex = 0;
+            showReasoningMode = false;
+            
+            // Reset UI
+            document.getElementById('player-name').value = '';
+            document.getElementById('turn-counter').textContent = '1';
+            document.getElementById('player-greeting').textContent = 'Make';
+            document.getElementById('reasoning-toggle').textContent = 'Show Reasoning';
+            
+            // Hide feedback panels
+            document.getElementById('prophet-panel').classList.add('hidden');
+            document.getElementById('achievements-panel').classList.add('hidden');
+            document.getElementById('achievements-list').innerHTML = '';
+            
+            // Update stats display
+            updateKingdomStats();
+            
+            // Return to hero screen
+            document.getElementById('end-screen').classList.add('hidden');
+            document.getElementById('hero-screen').classList.remove('hidden');
+        }
+
+        // Initialize the game when page loads
+        document.addEventListener('DOMContentLoaded', initializeGame);
+    </script>
+
+<!-- Donation note -->
+<div role="note" style="margin:16px 0; font-size:0.95rem; opacity:0.95;">
+  <strong>Free to use.</strong>
+  If this encouraged you, feel free to
+  <a href="https://www.paypal.com/donate/?hosted_button_id=8GRE7B8C3TP2U" target="_blank" rel="noopener">buy me a coffee</a>.
+  <span>— Made by Justin, Depths to the Heights</span>
+</div>
+
+<!-- Branding footer -->
+<footer style="text-align:center;opacity:.9;margin:24px 0">
+  <strong>Made by Justin — Depths to the Heights</strong> ·
+  <a href="mailto:depthstoheights@gmail.com">depthstoheights@gmail.com</a>
+</footer>
+
+<!-- Service worker registration -->
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js');
+  }
+</script>
+
+</body>
+</html>
